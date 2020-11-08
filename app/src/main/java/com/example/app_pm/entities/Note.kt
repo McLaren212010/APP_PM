@@ -10,5 +10,5 @@ import androidx.room.PrimaryKey
 class Note(
     @PrimaryKey(autoGenerate = true) val id: Int? =null,
     @ColumnInfo(name = "note") val note: String,
-    @ColumnInfo(name ="priority") val prioririty: String
+    @ColumnInfo(name ="priority") val priority: String
 )

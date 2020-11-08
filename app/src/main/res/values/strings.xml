@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">APP_PM</string>
+    <string name="Insert">Insert</string>
+    <string name="create_new">Create New</string>
+    <string name="Edit">Edit</string>
+    <string name="Delete">Delete</string>
+    <string name="Edit_Name">Title</string>
+    <string name="Insert_Title">Insert the title:</string>
+    <string name="Insert_Priority">Insert Priority:</string>
+    <string name="Priority">Priority</string>
+    <string name="Insert_ID">Insert an ID:</string>
+    <string name="ID">ID</string>
+    <string name="Insert_Note">Insert note:</string>
+    <string name="Note">Note</string>
+    <string name="Confirm">Confirm</string>
+    <string name="add_note">Add Note:</string>
+    <string name="hint_word">Word...</string>
+    <string name="button_save">Save</string>
+    <string name="empty_not_saved">Word not saved because it is empty.</string>
+    <string name="add_word">Add word</string>
+
 </resources>

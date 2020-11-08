@@ -1,0 +1,65 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Insert_Note"
+        android:paddingTop="10dp"
+        android:paddingStart="5dp"
+        android:text="@string/Insert_Note"
+        android:paddingLeft="5dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary">
+
+    </TextView>
+
+
+
+    <EditText
+        android:id="@+id/edit_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/min_height"
+        android:fontFamily="sans-serif-light"
+        android:hint="@string/Note"
+        android:inputType="textAutoComplete"
+        android:layout_margin="@dimen/big_padding"
+        android:textSize="18sp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Insert_Id"
+        android:paddingTop="5dp"
+        android:text="@string/Insert_Priority"
+        android:paddingLeft="5dp"
+        android:textStyle="bold"
+        android:paddingStart="5dp"
+        android:textColor="@color/colorPrimary">
+
+    </TextView>
+
+    <EditText
+        android:id="@+id/edit_priority"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/min_height"
+        android:fontFamily="sans-serif-light"
+        android:hint="@string/Priority"
+        android:inputType="textAutoComplete"
+        android:layout_margin="@dimen/big_padding"
+        android:textSize="18sp" />
+
+
+    <Button
+        android:id="@+id/button_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="@string/button_save"
+        android:layout_margin="@dimen/big_padding"
+        android:textColor="@color/buttonLabel" />
+
+</LinearLayout>
