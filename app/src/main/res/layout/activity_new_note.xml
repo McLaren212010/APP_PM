@@ -1,7 +1,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+
+    <ImageView
+
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/nota4"
+        android:scaleType="center">
+    </ImageView>
 
     <TextView
         android:layout_width="match_parent"
@@ -27,7 +39,10 @@
         android:hint="@string/Note"
         android:inputType="textAutoComplete"
         android:layout_margin="@dimen/big_padding"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textColorHint="@color/colorPrimary"
+        android:shadowColor="@color/colorPrimary"
+        />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -50,7 +65,9 @@
         android:hint="@string/Priority"
         android:inputType="textAutoComplete"
         android:layout_margin="@dimen/big_padding"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textColorHint="@color/colorPrimary"
+        android:shadowColor="@color/colorPrimary"/>
 
 
     <Button
@@ -61,5 +78,6 @@
         android:text="@string/button_save"
         android:layout_margin="@dimen/big_padding"
         android:textColor="@color/buttonLabel" />
+
 
 </LinearLayout>

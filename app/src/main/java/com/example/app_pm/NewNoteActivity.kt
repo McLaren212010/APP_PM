@@ -7,7 +7,12 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
+import com.example.app_pm.dao.NoteDao
 import com.example.app_pm.entities.Note
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.nio.file.Files.delete
 
 class NewNoteActivity : AppCompatActivity() {
 
@@ -38,4 +43,6 @@ class NewNoteActivity : AppCompatActivity() {
         const val EXTRA_REPLY_NOTE = "com.example.android.note"
         const val EXTRA_REPLY_PRIORITY = "com.example.android.priority"
     }
+
+
 }

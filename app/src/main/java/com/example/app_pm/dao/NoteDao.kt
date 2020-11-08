@@ -27,4 +27,7 @@ interface NoteDao{
 
     @Update
     suspend fun updatePriority(priority: Note)
+
+    @Delete
+    suspend fun  delete (note: Note)
 }

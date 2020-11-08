@@ -4,6 +4,7 @@
     <string name="create_new">Create New</string>
     <string name="Edit">Edit</string>
     <string name="Delete">Delete</string>
+    <string name="Delete_All">Delete All</string>
     <string name="Edit_Name">Title</string>
     <string name="Insert_Title">Insert the title:</string>
     <string name="Insert_Priority">Insert Priority:</string>
