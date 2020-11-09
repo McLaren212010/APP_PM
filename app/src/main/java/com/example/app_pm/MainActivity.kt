@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity(), OnNoteItemClickListener {
 
     private lateinit var noteViewModel: NoteViewModel
     private val newNoteActivityRequestCode = 1
+    private val updateNoteActivityRequestCode = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,11 +35,12 @@ class MainActivity : AppCompatActivity(), OnNoteItemClickListener {
 
         // recycler view
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-        val adapter = NoteAdapter(this)
+        val adapter = NoteAdapter(this, this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         // view model
+
         noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
         noteViewModel.allNotes.observe(this, Observer { notes ->
             // Update the cached copy of the words in the adapter.
@@ -52,7 +54,7 @@ class MainActivity : AppCompatActivity(), OnNoteItemClickListener {
             startActivityForResult(intent, newNoteActivityRequestCode)
         }
 
-        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -61,25 +63,37 @@ class MainActivity : AppCompatActivity(), OnNoteItemClickListener {
                 return false
             }
 
-            override fun onSwiped(viewModel: RecyclerView.ViewHolder, direction: Int){
-            noteViewModel.delete(adapter.getNoteAt(viewModel.layoutPosition))
+            override fun onSwiped(viewModel: RecyclerView.ViewHolder, direction: Int) {
+                noteViewModel.delete(adapter.getNoteAt(viewModel.layoutPosition))
                 Toast.makeText(this@MainActivity, "Note Deleted.", Toast.LENGTH_SHORT).show()
 
             }
-    }).attachToRecyclerView(recyclerView)
+        }).attachToRecyclerView(recyclerView)
     }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
+            var pnote : String?
+            var ppriority : String?
         if (requestCode == newNoteActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            val pnote = data?.getStringExtra(NewNoteActivity.EXTRA_REPLY_NOTE)
-            val ppriority = data?.getStringExtra(NewNoteActivity.EXTRA_REPLY_PRIORITY)
+            pnote = data?.getStringExtra(NewNoteActivity.EXTRA_REPLY_NOTE)
+            ppriority = data?.getStringExtra(NewNoteActivity.EXTRA_REPLY_PRIORITY)
 
-            if (pnote!= null && ppriority != null) {
+            if (pnote != null && ppriority != null) {
                 val note = Note(note = pnote, priority = ppriority)
                 noteViewModel.insert(note)
+            }
+
+        } else if (requestCode == updateNoteActivityRequestCode && resultCode == Activity.RESULT_OK) {
+            pnote = data?.getStringExtra(NewNoteActivity.EXTRA_REPLY_NOTE)
+            ppriority = data?.getStringExtra(NewNoteActivity.EXTRA_REPLY_PRIORITY)
+            val pid = data?.getIntExtra(NewNoteActivity.EXTRA_REPLY_ID,-1)
+
+            if (pnote != null && ppriority != null && pid != -1) {
+                val note = Note(id = pid, note = pnote, priority = ppriority )
+                Toast.makeText(this, note.id.toString(), Toast.LENGTH_SHORT).show()
+                noteViewModel.update(note)
             }
 
         } else {
@@ -98,7 +112,6 @@ class MainActivity : AppCompatActivity(), OnNoteItemClickListener {
     }
 
 
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
         return when (item.itemId) {
@@ -109,11 +122,16 @@ class MainActivity : AppCompatActivity(), OnNoteItemClickListener {
             else -> super.onOptionsItemSelected(item)
         }
 
-        }
+    }
 
 
+    override fun onItemClick(note: Note, priority: Int) {
+        Toast.makeText(this, note.id.toString(), Toast.LENGTH_SHORT).show()
+        val intent = Intent(this@MainActivity, NewNoteActivity::class.java)
+        intent.putExtra("Note", note.note)
+        intent.putExtra("Priority", note.priority)
+        intent.putExtra("ID", note.id)
+        startActivityForResult(intent, updateNoteActivityRequestCode)
 
-    override fun onItemClick(note: Note, id: Note) {
-        TODO("Not yet implemented")
     }
 }

@@ -24,8 +24,13 @@ class NoteRepository(private val noteDao: NoteDao) {
         noteDao.deleteAll()
     }
 
+    suspend fun update(note: Note){
+        noteDao.update(note)
+    }
 
     fun getNotePriority(priority: String): LiveData<Note> {
         return noteDao.getNotePriority(priority)
     }
+
+
 }

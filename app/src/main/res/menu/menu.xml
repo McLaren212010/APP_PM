@@ -7,8 +7,4 @@
         app:showAsAction="never">
     </item>
 
-    <item android:id="@+id/editbutton"
-        android:title="@string/Edit"
-        app:showAsAction="never">
-    </item>
 </menu>

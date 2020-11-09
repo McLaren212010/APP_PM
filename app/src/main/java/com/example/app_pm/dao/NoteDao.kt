@@ -16,17 +16,14 @@ interface NoteDao{
     @Query("DELETE FROM note_table")
     suspend fun deleteAll()
 
-    @Query("SELECT * FROM note_table where priority == :priority")
+    @Query("SELECT * FROM note_table where priority == :priority ")
     fun getNotePriority(priority: String): LiveData<Note>
 
     @Query("DELETE FROM note_table where note == :note")
     suspend fun deleteByNote(note: String)
 
     @Update
-    suspend fun updateNote(note: Note)
-
-    @Update
-    suspend fun updatePriority(priority: Note)
+    suspend fun update(note: Note)
 
     @Delete
     suspend fun  delete (note: Note)
