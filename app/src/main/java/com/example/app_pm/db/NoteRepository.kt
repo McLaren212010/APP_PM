@@ -3,6 +3,7 @@ package com.example.app_pm.db
 import androidx.lifecycle.LiveData
 import com.example.app_pm.dao.NoteDao
 import com.example.app_pm.entities.Note
+import kotlinx.coroutines.Dispatchers
 
 class NoteRepository(private val noteDao: NoteDao) {
 
@@ -15,7 +16,21 @@ class NoteRepository(private val noteDao: NoteDao) {
         noteDao.insert(note)
     }
 
+    suspend fun delete(note: Note) {
+        noteDao.delete(note)
+    }
+
+    suspend fun deleteAll(){
+        noteDao.deleteAll()
+    }
+
+    suspend fun update(note: Note){
+        noteDao.update(note)
+    }
+
     fun getNotePriority(priority: String): LiveData<Note> {
         return noteDao.getNotePriority(priority)
     }
+
+
 }

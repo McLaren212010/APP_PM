@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">APP_PM</string>
+    <string name="Insert">Inserir</string>
+    <string name="create_new">Criar novo</string>
+    <string name="Edit">Editar</string>
+    <string name="Delete">Eliminar</string>
+    <string name="Delete_All">Eliminar Todos</string>
+    <string name="Edit_Name">Título</string>
+    <string name="Insert_Title">Insirta o título:</string>
+    <string name="Insert_Priority">Insira a prioridade:</string>
+    <string name="Priority">Prioridade</string>
+    <string name="Insert_ID">Insira um ID:</string>
+    <string name="ID">ID</string>
+    <string name="Insert_Note">Insira a nota:</string>
+    <string name="Note">Nota</string>
+    <string name="Confirm">Confirmar</string>
+    <string name="add_note">Adicionar nota:</string>
+    <string name="hint_word">Palavra...</string>
+    <string name="button_save">Guardar</string>
+    <string name="empty_not_saved">Palavra não guardada pois o valor é vazio.</string>
+    <string name="add_word">Adicionar palavra</string>
+    <string name="OrderPriority">Order por Prioridade</string>
+</resources>

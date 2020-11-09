@@ -4,11 +4,14 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import com.example.app_pm.dao.NoteDao
 import com.example.app_pm.db.NoteDatabase
 import com.example.app_pm.db.NoteRepository
 import com.example.app_pm.entities.Note
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.nio.file.Files.delete
 
 class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -36,33 +39,22 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         repository.getNotePriority(priority)
     }
 
-    /*
+    fun delete (note:Note){
+        viewModelScope.launch(Dispatchers.IO) {
+           repository.delete(note)
+        }
+    }
 
-    // delete all
+    fun update(note:Note){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.update(note)
+        }
+    }
+
     fun deleteAll() = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteAll()
     }
 
-    // delete by city
-    fun deleteByCity(city: String) = viewModelScope.launch(Dispatchers.IO) {
-        repository.deleteByCity(city)
-    }
 
-    fun getCitiesByCountry(country: String): LiveData<List<City>> {
-        return repository.getCitiesByCountry(country)
-    }
-
-    fun getCountryFromCity(city: String): LiveData<City> {
-        return repository.getCountryFromCity(city)
-    }
-
-    fun updateCity(city: City) = viewModelScope.launch {
-        repository.updateCity(city)
-    }
-
-    fun updateCountryFromCity(city: String, country: String) = viewModelScope.launch {
-        repository.updateCountryFromCity(city, country)
-    }
-    */
 
 }

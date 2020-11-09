@@ -10,7 +10,7 @@ import com.example.app_pm.R
 import com.example.app_pm.entities.Note
 
 class NoteAdapter internal constructor(
-    context: Context
+    context: Context, var clickListener: OnNoteItemClickListener
 ) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -24,10 +24,18 @@ class NoteAdapter internal constructor(
         fun initialize(notes: Note, action:OnNoteItemClickListener){
             noteItemView.text = notes.note
             idItemView.text = notes.id.toString()
-            priorityItemView.text = notes.note
+            priorityItemView.text = notes.priority
+
+            itemView.setOnClickListener{
+                action.onItemClick(notes, adapterPosition)
+            }
         }
+
+
     }
 
+
+    fun getNoteAt(position: Int): Note = notes.get(position)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val itemView = inflater.inflate(R.layout.recyclerview_item, parent, false)
@@ -35,11 +43,14 @@ class NoteAdapter internal constructor(
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-        val current = notes[position]
+ /*       val current = notes[position]
         holder.noteItemView.text = current.note
         holder.idItemView.text ="ID: "+ current.id.toString()
-        holder.priorityItemView.text = current.priority
+        holder.priorityItemView.text = current.priority*/
+
+        holder.initialize(notes.get(position),clickListener)
     }
+
 
 
     internal fun setNotes(notes: List<Note>) {
@@ -51,6 +62,8 @@ class NoteAdapter internal constructor(
 }
 
 interface OnNoteItemClickListener {
-    fun onItemClick(note: Note, id: Note)
+    fun onItemClick(notes: Note, position: Int)
 
 }
+
+
