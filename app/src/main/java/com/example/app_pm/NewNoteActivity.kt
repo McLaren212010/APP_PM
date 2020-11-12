@@ -51,6 +51,7 @@ class NewNoteActivity : AppCompatActivity() {
             } else {
                 replyIntent.putExtra(EXTRA_REPLY_NOTE, noteText.text.toString())
                 replyIntent.putExtra(EXTRA_REPLY_PRIORITY, priorityText.text.toString())
+                replyIntent.putExtra(EXTRA_REPLY_ID, id)
                 setResult(Activity.RESULT_OK, replyIntent)
             }
             finish()

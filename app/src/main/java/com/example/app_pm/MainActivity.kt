@@ -89,10 +89,9 @@ class MainActivity : AppCompatActivity(), OnNoteItemClickListener {
             pnote = data?.getStringExtra(NewNoteActivity.EXTRA_REPLY_NOTE)
             ppriority = data?.getStringExtra(NewNoteActivity.EXTRA_REPLY_PRIORITY)
             val pid = data?.getIntExtra(NewNoteActivity.EXTRA_REPLY_ID,-1)
-
             if (pnote != null && ppriority != null && pid != -1) {
                 val note = Note(id = pid, note = pnote, priority = ppriority )
-                Toast.makeText(this, note.id.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, note.priority, Toast.LENGTH_SHORT).show()
                 noteViewModel.update(note)
             }
 
