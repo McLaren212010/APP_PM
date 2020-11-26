@@ -11,7 +11,7 @@ object ServiceBuilder {
 
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://jsonplaceholder.typicode.com/")
+        .baseUrl("https://jsonplaceholder.typicode.com/")
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)
         .build()

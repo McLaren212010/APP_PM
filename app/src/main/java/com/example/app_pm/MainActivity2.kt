@@ -41,6 +41,7 @@ class MainActivity2 : AppCompatActivity() {
         })
 
     }
+
     fun getSingle(view: View) {
 
         val request = ServiceBuilder.buildService(EndPoints::class.java)

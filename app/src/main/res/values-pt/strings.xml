@@ -27,5 +27,6 @@
     <string name="Insert_Password">Insira a palavra-passe:</string>
     <string name="button_login">Login</string>
     <string name="button_notas">Notas</string>
+    <string name="title_activity_maps">Mapa</string>
 
 </resources>
