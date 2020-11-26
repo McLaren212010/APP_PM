@@ -20,5 +20,11 @@
     <string name="empty_not_saved">Word not saved because it is empty.</string>
     <string name="add_word">Add word</string>
     <string name="OrderPriority">Order by Priority</string>
-
+    <string name="Insert_User">Insert User:</string>
+    <string name="User">User</string>
+    <string name="Password">Password</string>
+    <string name="Insert_Password">Insert the password:</string>
+    <string name="button_login">Login</string>
+    <string name="button_notas">Notes</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
