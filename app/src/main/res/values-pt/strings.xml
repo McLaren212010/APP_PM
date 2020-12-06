@@ -21,4 +21,15 @@
     <string name="empty_not_saved">Palavra não guardada pois o valor é vazio.</string>
     <string name="add_word">Adicionar palavra</string>
     <string name="OrderPriority">Order por Prioridade</string>
+    <string name="Insert_User">Inserir utilizador:</string>
+    <string name="User">Utilizador</string>
+    <string name="Password">Palavra-Passe</string>
+    <string name="Insert_Password">Insira a palavra-passe:</string>
+    <string name="button_login">Login</string>
+    <string name="button_notas">Notas</string>
+    <string name="title_activity_maps">Mapa</string>
+    <string name="Coordinates">Coordenadas</string>
+    <string name="Distance">Distância</string>
+    <string name="Address">Morada</string>
+
 </resources>

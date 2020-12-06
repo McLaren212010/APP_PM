@@ -17,10 +17,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_pm.adapter.NoteAdapter
 import com.example.app_pm.adapter.OnNoteItemClickListener
+import com.example.app_pm.adapter.UserAdapter
+import com.example.app_pm.api.EndPoints
+import com.example.app_pm.api.ServiceBuilder
+import com.example.app_pm.api.User
 import com.example.app_pm.entities.Note
 import com.example.app_pm.viewModel.NoteViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.Call
+import okhttp3.Response
 import java.nio.file.Files.delete
+import javax.security.auth.callback.Callback
 
 
 class MainActivity : AppCompatActivity(), OnNoteItemClickListener {
@@ -29,9 +37,16 @@ class MainActivity : AppCompatActivity(), OnNoteItemClickListener {
     private val newNoteActivityRequestCode = 1
     private val updateNoteActivityRequestCode = 2
 
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+
+
 
         // recycler view
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
