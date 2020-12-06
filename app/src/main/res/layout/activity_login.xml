@@ -67,7 +67,7 @@ android:layout_width="match_parent"
 android:layout_height="wrap_content"
 android:background="@color/colorPrimary"
 android:text="@string/button_login"
-    android:onClick="click_login"
+    android:onClick="clicklogin"
 android:layout_margin="@dimen/big_padding"
 android:textColor="@color/buttonLabel" />
 

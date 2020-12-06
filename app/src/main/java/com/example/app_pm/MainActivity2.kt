@@ -63,20 +63,20 @@ class MainActivity2 : AppCompatActivity() {
     fun post(view: View) {
 
         val request = ServiceBuilder.buildService(EndPoints::class.java)
-        val call = request.postTest("teste")
+       // val call = request.postTest("teste")
 
-        call.enqueue(object : Callback<OutputPost>{
+        /*call.enqueue(object : Callback<OutputPost>{
             override fun onResponse(call: retrofit2.Call<OutputPost>, response: retrofit2.Response<OutputPost>) {
                 if (response.isSuccessful){
                     val c: OutputPost = response.body()!!
-                    Toast.makeText(this@MainActivity2, c.id.toString() + "-" + c.title, Toast.LENGTH_SHORT).show()
+                   // Toast.makeText(this@MainActivity2, c.id.toString() + "-" + c.title, Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: retrofit2.Call<OutputPost>, t: Throwable) {
                 Toast.makeText(this@MainActivity2, "${t.message}", Toast.LENGTH_SHORT).show()
             }
-        })
+        })*/
     }
 
     fun map(view: View) {
