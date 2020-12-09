@@ -1,0 +1,87 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/Insert_User"
+    android:paddingTop="10dp"
+    android:paddingStart="5dp"
+    android:text="@string/Insert_User"
+    android:paddingLeft="5dp"
+    android:textStyle="bold"
+    android:textColor="@color/colorPrimary">
+
+</TextView>
+
+
+
+<EditText
+android:id="@+id/user"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:minHeight="@dimen/min_height"
+android:fontFamily="sans-serif-light"
+android:hint="@string/User"
+android:inputType="textAutoComplete"
+android:layout_margin="@dimen/big_padding"
+android:textSize="18sp"
+android:textColorHint="@color/colorPrimary"
+android:shadowColor="@color/colorPrimary"
+    />
+<TextView
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:id="@+id/Insert_password"
+android:paddingTop="5dp"
+android:text="@string/Insert_Password"
+android:paddingLeft="5dp"
+android:textStyle="bold"
+android:paddingStart="5dp"
+android:textColor="@color/colorPrimary">
+
+</TextView>
+
+<EditText
+android:id="@+id/insert_password"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:minHeight="@dimen/min_height"
+android:fontFamily="sans-serif-light"
+android:hint="@string/Password"
+android:inputType="textPassword"
+android:layout_margin="@dimen/big_padding"
+android:textSize="18sp"
+android:textColorHint="@color/colorPrimary"
+android:shadowColor="@color/colorPrimary" />
+
+
+<Button
+android:id="@+id/button_login"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:background="@color/colorPrimary"
+android:text="@string/button_login"
+    android:onClick="clicklogin"
+android:layout_margin="@dimen/big_padding"
+android:textColor="@color/buttonLabel" />
+
+    <Button
+        android:id="@+id/button_notas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/big_padding"
+        android:background="@color/colorPrimary"
+        android:onClick="click_notas"
+
+        android:text="@string/button_notas"
+
+        android:textColor="@color/buttonLabel" />
+
+
+</LinearLayout>

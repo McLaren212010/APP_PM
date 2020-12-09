@@ -1,12 +1,16 @@
 package com.example.app_pm
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.location.Geocoder
 import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -14,30 +18,45 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.app_pm.api.EndPoints
+import com.example.app_pm.api.OutputPost2
+import com.example.app_pm.api.Problem
 import com.example.app_pm.api.ServiceBuilder
-import com.example.app_pm.api.User
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
+    var sensor: Sensor? = null
+    var sensorManager: SensorManager?= null
+    var marker_1: Marker? = null
     private var casaLat: Double = 0.0
     private var casaLng: Double = 0.0
     private lateinit var mMap: GoogleMap
-    private lateinit var users: List<User>
+    private lateinit var problems: List<Problem>
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var Descr = ""
+    private val newWordActivityRequestCode2 = 2
+    private val newWordActivityRequestCode3 = 3
+    private var User_ID:Int = 0
 
     //variáveis para imnplementar updates periódicos de localização
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest : LocationRequest
+    private val newWordActivityRequestCode = 1
 
     override fun onCreateOptionsMenu(menu2: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
@@ -49,7 +68,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
-
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -70,60 +88,91 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
 
+
         //adiciona para implementar a localização por updates periódicos
         locationCallback = object : LocationCallback(){
             override fun onLocationResult(p0: LocationResult) {
                 super.onLocationResult(p0)
                 lastLocation = p0.lastLocation
-                var loc = LatLng(lastLocation.latitude,lastLocation.longitude)
+                var loc = LatLng(lastLocation.latitude, lastLocation.longitude)
 
                 //mMap.addMarker(MarkerOptions().position(loc).title("Marker"))
-                findViewById<TextView>(R.id.Coordenadas).setText("Lat: " +loc.latitude + " - Long: " + loc.longitude)
+             //   findViewById<TextView>(R.id.Coordenadas).setText("Lat: " +loc.latitude + " - Long: " + loc.longitude)
 
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 15.0f))
+              //  mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 15.0f))
+
+
 
                 //reversegeocoding
                 val address = getAddress(lastLocation.latitude, lastLocation.longitude)
-                findViewById<TextView>(R.id.Morada).setText("Morada: " + address)
+               findViewById<TextView>(R.id.Morada).setText("Morada: " + address)
 
-                findViewById<TextView>(R.id.Distância).setText("Distância: " + calculateDistance(
-                    lastLocation.latitude, lastLocation.longitude,
-                    casaLat, casaLng).toString())
-                Log.d("*** RUI","new location received - " +loc.latitude + " - " +loc.longitude)
+
+               // Log.d("*** RUI","new location received - " +loc.latitude + " - " +loc.longitude)
             }
         }
 
         //call the service and add markers
         val request= ServiceBuilder.buildService(EndPoints::class.java)
-        val call = request.getUsers()
+        val call = request.getProblem()
         var position: LatLng
 
-       call.enqueue(object: retrofit2.Callback<List<User>>{
-           override fun onResponse(call: retrofit2.Call<List<User>>, response: retrofit2.Response<List<User>>){
-                if (response.isSuccessful){
-                    users = response.body()!!
-                    for (user in users){
-                        position = LatLng(user.address.geo.lat.toString().toDouble(),
-                            user.address.geo.lng.toString().toDouble())
-                        mMap.addMarker(MarkerOptions().position(position).title(user.address.suite + " - " + user.address.city))                    }
-                }
-            }
-            override fun onFailure(call: retrofit2.Call<List<User>>, t:Throwable){
-                Toast.makeText(this@MapsActivity, "${t.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
+       call.enqueue(object : retrofit2.Callback<List<Problem>> {
+           override fun onResponse(
+               call: retrofit2.Call<List<Problem>>,
+               response: retrofit2.Response<List<Problem>>
+           ) {
+               if (response.isSuccessful) {
+                   problems = response.body()!!
+                   for (Problem in problems) {
+
+
+                       position = LatLng(
+                           Problem.lat.toDouble(),
+                           Problem.lng.toDouble()
+
+                       )
+                       mMap.addMarker(
+
+                           MarkerOptions().position(position)
+                               .title("Descrição do problema: " + Problem.descr.toString() + "; UserID: " + Problem.user_id)
+                               .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+
+
+                       )
+
+
+                   }
+
+               }
+           }
+
+           override fun onFailure(call: retrofit2.Call<List<Problem>>, t: Throwable) {
+               Toast.makeText(this@MapsActivity, "${t.message}", Toast.LENGTH_SHORT).show()
+           }
+       })
+        createLocationRequest()
+
     }
 
    private fun startLocationUpdates(){
-       if(ActivityCompat.checkSelfPermission(this,
-           android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-           ActivityCompat.requestPermissions(this,
-           arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-           LOCATION_PERMISSION_REQUEST_CODE)
+       if(ActivityCompat.checkSelfPermission(
+               this,
+               android.Manifest.permission.ACCESS_FINE_LOCATION
+           ) != PackageManager.PERMISSION_GRANTED){
+           ActivityCompat.requestPermissions(
+               this,
+               arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+               LOCATION_PERMISSION_REQUEST_CODE
+           )
            return
        }
 
-       fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null /*Looper*/)
+       fusedLocationClient.requestLocationUpdates(
+           locationRequest,
+           locationCallback,
+           null /*Looper*/
+       )
 
     }
 
@@ -154,7 +203,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onResume(){
         super.onResume()
         startLocationUpdates()
-        Log.d("*** RUI","onResume - startLocationUpdates")
+        Log.d("*** RUI", "onResume - startLocationUpdates")
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -166,8 +215,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))*/
 
         setUpMap()
+
     }
 
+
+    fun onMarkerClick(marker: Marker): Boolean {
+        // TODO Auto-generated method stub
+        if (marker.equals(marker_1)) {
+            Log.w("Click", "test")
+            return true
+        }
+        return false
+    }
     companion object{
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1          // add to implement location periodic updates
         private const val REQUEST_CHECK_SETTINGS = 2
@@ -176,11 +235,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     fun setUpMap(){
 
-        if (ActivityCompat.checkSelfPermission(this,
-            android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(this,
-               arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
             return
         } else {
 
@@ -188,13 +252,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             mMap.isMyLocationEnabled = true
 
             //2
-            fusedLocationClient.lastLocation.addOnSuccessListener(this) {location ->
+            fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
                 //Got know last location. In some rare situation it can return null.«
 
                 if (location != null){
                     lastLocation = location
                     //Toast.makeText(this@MapsActivity, lastLocation.toString(), Toast.LENGTH_SHORT).show()
-                    val currentLatLng = LatLng (location.latitude, location.longitude)
+                    val currentLatLng = LatLng(location.latitude, location.longitude)
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
                  }
                 }
@@ -202,29 +266,34 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         }
 
-    private fun getAddress(lat: Double, lng:Double):String{
+    private fun getAddress(lat: Double, lng: Double):String{
         val geocoder= Geocoder(this)
-        val list= geocoder.getFromLocation(lat,lng,1)
+        val list= geocoder.getFromLocation(lat, lng, 1)
         return list[0].getAddressLine(0)
     }
 
     fun calculateDistance(lat1: Double, lng1: Double, lat2: Double, lng2: Double): Float {
         val results = FloatArray(1)
-        Location.distanceBetween(lat1,lng1,lat2,lng2,results)
+        Location.distanceBetween(lat1, lng1, lat2, lng2, results)
         //distância em metros
         return results[0]
 
     }
 
+
+    //Quando clica num dos botões do menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             //logout
             R.id.btn1 -> {
-                val sharedPref: SharedPreferences = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE )
-                with ( sharedPref.edit() ) {
-                    putBoolean(getString(R.string.automatic_login), false )
-                    putString(getString(R.string.username_login), null )
-                   // putString(getString(R.string.password_login), null )
+                val sharedPref: SharedPreferences = getSharedPreferences(
+                    getString(R.string.preference_file_key),
+                    Context.MODE_PRIVATE
+                )
+                with(sharedPref.edit()) {
+                    putBoolean(getString(R.string.automatic_login), false)
+                    putString(getString(R.string.username_login), null)
+                    // putString(getString(R.string.password_login), null )
                     commit()
                 }
 
@@ -234,9 +303,202 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 finish()
                 true
             }
+
+            //Quando clica para adicionar um novo marker
+            R.id.add_marker -> {
+                val intent = Intent(this@MapsActivity, RequestProblem::class.java)
+                startActivityForResult(intent, newWordActivityRequestCode)
+                true
+            }
+
+            R.id.filter_user -> {
+                val intent = Intent(this@MapsActivity, Request_UserID::class.java)
+                startActivityForResult(intent, newWordActivityRequestCode2)
+                true
+
+            }
+
+            R.id.filter_distance -> {
+                val intent = Intent(this@MapsActivity, Request_Distance::class.java)
+                startActivityForResult(intent, newWordActivityRequestCode3)
+                true
+            }
+
+
             else -> super.onOptionsItemSelected(item)
         }
     }
 
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == newWordActivityRequestCode && resultCode == Activity.RESULT_OK) {
+            Descr = data?.getStringExtra(RequestProblem.EXTRA_REPLY)!!
+
+            val sharedPref: SharedPreferences = getSharedPreferences(
+                getString(R.string.preference_file_key),
+                Context.MODE_PRIVATE
+            )
+            val Value = sharedPref.getInt(getString(R.string.id_login), 0)
+
+            val request = ServiceBuilder.buildService(EndPoints::class.java)
+            val call = request.insert(
+                Descr,
+                lastLocation.latitude.toString(),
+                lastLocation.longitude.toString(),
+                Value
+            )
+
+            call.enqueue(object : Callback<OutputPost2> {
+                override fun onResponse(call: Call<OutputPost2>, response: Response<OutputPost2>) {
+                    if (response.isSuccessful) {
+                        val c: OutputPost2 = response.body()!!
+                        Toast.makeText(
+                            this@MapsActivity,
+                            "Inserido com sucesso",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<OutputPost2>, t: Throwable) {
+                    Toast.makeText(this@MapsActivity, "${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+
+
+        }   else if (requestCode == newWordActivityRequestCode2 && resultCode == Activity.RESULT_OK) {
+                User_ID = data?.getIntExtra(Request_UserID.EXTRA_REPLY, 0)!!
+
+            var position: LatLng
+            var position2: LatLng
+
+                val request = ServiceBuilder.buildService(EndPoints::class.java)
+                val call = request.getProblemByID(User_ID)
+
+                call.enqueue(object : Callback<List<Problem>> {
+
+                    override fun onResponse(
+                        call: Call<List<Problem>>,
+                        response: Response<List<Problem>>
+                    ) {
+                        if (response.isSuccessful) {
+                            mMap.clear();
+                            problems = response.body()!!
+                            for (problem in problems) {
+                                if (problem.user_id == R.string.id_login) {
+                                    position = LatLng(
+                                        problem.lat.toDouble(),
+                                        problem.lng.toDouble()
+                                    )
+                                    mMap.addMarker(
+                                        MarkerOptions().position(position)
+                                            .title(//"Coordenadas: " + problem.lat + " - " + problem.lng +
+                                                "Tipo de problema:" + problem.descr
+                                            )
+                                            .icon(
+                                                BitmapDescriptorFactory.defaultMarker(
+                                                    BitmapDescriptorFactory.HUE_GREEN
+                                                )
+                                            )
+                                    )
+                                } else {
+
+                                    position2 = LatLng(
+                                        problem.lat.toDouble(),
+                                        problem.lng.toDouble()
+                                    )
+
+
+                                    mMap.addMarker(
+                                        MarkerOptions().position(position2)
+                                            .title(//"Coordenadas: " + problem.lat + " - " + problem.lng +
+                                                "Tipo de problema:" + problem.descr
+                                            )
+                                            .icon(
+                                                BitmapDescriptorFactory.defaultMarker(
+                                                    BitmapDescriptorFactory.HUE_BLUE
+                                                )
+                                            )
+                                    )
+                                }
+                            }
+                            createLocationRequest()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<List<Problem>>, t: Throwable) {
+                        Toast.makeText(this@MapsActivity, R.string.NoMarker, Toast.LENGTH_SHORT)
+                            .show()
+                        mMap.clear();
+                    }
+                })
+            } else if (requestCode == newWordActivityRequestCode3 && resultCode == Activity.RESULT_OK) {
+
+                val insertvalue = data?.getDoubleExtra(RequestProblem.EXTRA_REPLY, 0.0)!!
+                val metros = insertvalue * 1000
+
+                mMap.clear();
+                val request = ServiceBuilder.buildService(EndPoints::class.java)
+                val call = request.getProblem()
+                var position: LatLng
+
+                call.enqueue(object : Callback<List<Problem>> {
+                    override fun onResponse(
+                        call: Call<List<Problem>>,
+                        response: Response<List<Problem>>
+                    ) {
+                        if (response.isSuccessful) {
+                            problems = response.body()!!
+                            for (problem in problems) {
+                                val dist = calculateDistance(
+                                    lastLocation.latitude,
+                                    lastLocation.longitude,
+                                    problem.lat.toDouble(),
+                                    problem.lng.toDouble()
+                                )
+
+                                Toast.makeText(
+                                    this@MapsActivity,
+                                    "Distância: " + dist,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                /*findViewById<TextView>(R.id.Distância).setText("Distância: " + calculateDistance(
+                                    lastLocation.latitude, lastLocation.longitude,
+                                    problem.lat.toDouble(),
+                                    problem.lng.toDouble()).toString())*/
+
+                                if (dist < metros) {
+                                    position = LatLng(
+                                        problem.lat.toDouble(),
+                                        problem.lng.toDouble()
+                                    )
+                                    mMap.addMarker(
+                                        MarkerOptions().position(position)
+                                            .title("Coordenadas: " + problem.lat + " - " + problem.lng + "/ Tipo de problema:" + problem.descr)
+                                            .icon(
+                                                BitmapDescriptorFactory.defaultMarker(
+                                                    BitmapDescriptorFactory.HUE_AZURE
+                                                )
+                                            )
+                                    )
+                                }
+                            }
+                            createLocationRequest()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<List<Problem>>, t: Throwable) {
+                        Toast.makeText(this@MapsActivity, "${t.message}", Toast.LENGTH_SHORT).show()
+                    }
+                })
+
+            } else {
+                Toast.makeText(
+                    applicationContext, "@id/Empty", Toast.LENGTH_LONG
+                ).show()
+            }
+        }
 
 }

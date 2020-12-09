@@ -6,16 +6,15 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.app_pm.adapter.UserAdapter
+//import com.example.app_pm.adapter.UserAdapter
 import com.example.app_pm.api.EndPoints
 import com.example.app_pm.api.OutputPost
 import com.example.app_pm.api.ServiceBuilder
-import com.example.app_pm.api.User
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.Call
 import okhttp3.Response
 import retrofit2.Callback
-
+/*
 
 class MainActivity2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,4 +84,4 @@ class MainActivity2 : AppCompatActivity() {
         startActivity(intent)
 
     }
-}
+}*/

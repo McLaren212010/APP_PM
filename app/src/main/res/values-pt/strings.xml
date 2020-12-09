@@ -31,5 +31,20 @@
     <string name="Coordinates">Coordenadas</string>
     <string name="Distance">Distância</string>
     <string name="Address">Morada</string>
+    <string name="Login_Done">Sucesso</string>
+    <string name="Login_Failed">Login errado</string>
+    <string name="logout">Logout</string>
+    <string name="addmarker">Adicionar Marcador</string>
+    <string name="Insert_Problem">Inserir Problema</string>
+    <string name="button_confirm">Confirmar</string>
+    <string name="Problem">Problema</string>
+    <string name="FilterID">Filtrar pelo User ID</string>
+    <string name="FilterDistance">Filtrar por Distância</string>
+    <string name="NoMarker">Sem Markers.</string>
+    <string name="Insert_UserID">Inserir um ID de User</string>
+    <string name="UserID">User ID</string>
+    <string name="ChooseID">Escolha um ID:</string>
+    <string name="Insert_Distance">Insira Distância:</string>
+    <string name="empty">Vazio!</string>
 
 </resources>

@@ -12,3 +12,9 @@ data class Data(
     val name: String,
     val password: String,
 )
+
+
+data class OutputPost2(
+    val status: Boolean,
+    val msg: String
+)

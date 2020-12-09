@@ -73,9 +73,8 @@ class Login : AppCompatActivity() {
 
                     //Se a ligação ocorrer sem erros
                     if(response.isSuccessful) {
-                        Toast.makeText(this@Login,"Teste", Toast.LENGTH_SHORT).show()
                         val p: OutputPost = response.body()!!
-                        Toast.makeText(this@Login, "No errors", Toast.LENGTH_SHORT).show()
+                       // Toast.makeText(this@Login, "No errors", Toast.LENGTH_SHORT).show()
 
                         //Se o valor error retornado for true
                         if (p.error) {
