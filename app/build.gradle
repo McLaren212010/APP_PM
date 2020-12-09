@@ -72,8 +72,9 @@ dependencies {
 
 
 
-    //dependência modo noturno
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.1.17'
+
+
+
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.lifecycleVersion"

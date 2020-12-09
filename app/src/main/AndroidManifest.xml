@@ -20,7 +20,6 @@
         <activity android:name=".Request_Distance"></activity>
         <activity android:name=".Request_UserID" />
         <activity android:name=".RequestProblem" />
-        <activity android:name=".MainActivity2" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

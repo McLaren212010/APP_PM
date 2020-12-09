@@ -29,19 +29,19 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, SensorEventListener {
 
     var sensor: Sensor? = null
     var sensorManager: SensorManager?= null
     var marker_1: Marker? = null
+    var isRunning = false
+
+
     private var casaLat: Double = 0.0
     private var casaLng: Double = 0.0
     private lateinit var mMap: GoogleMap
@@ -69,6 +69,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
 
+
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        sensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_LIGHT)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -500,5 +503,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 ).show()
             }
         }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        try {
+            if (event!!.values[0] < 30 && isRunning == false) {
+                isRunning = true
+                val success: Boolean = mMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                        this, R.raw.maptheme
+                    )
+                )
+            } else{
+                isRunning = false
+            }
+        } catch (e: Exception) {
+
+        }
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+
+    }
 
 }
