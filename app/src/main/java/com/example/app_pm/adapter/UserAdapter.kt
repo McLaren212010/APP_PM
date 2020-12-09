@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_pm.R
-import com.example.app_pm.api.User
 
+/*
 class UserAdapter(val users: List<User>): RecyclerView.Adapter<UsersViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UsersViewHolder {
        val view = LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_item, parent,)
@@ -36,4 +36,4 @@ class UsersViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
 
 
-}
+}*/

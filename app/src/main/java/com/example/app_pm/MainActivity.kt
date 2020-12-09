@@ -17,10 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_pm.adapter.NoteAdapter
 import com.example.app_pm.adapter.OnNoteItemClickListener
-import com.example.app_pm.adapter.UserAdapter
 import com.example.app_pm.api.EndPoints
 import com.example.app_pm.api.ServiceBuilder
-import com.example.app_pm.api.User
 import com.example.app_pm.entities.Note
 import com.example.app_pm.viewModel.NoteViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton

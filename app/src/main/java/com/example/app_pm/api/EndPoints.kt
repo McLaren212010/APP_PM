@@ -8,13 +8,17 @@ import retrofit2.http.POST
 
 
 interface EndPoints {
-    @GET("/user/")
-    fun getUsers(): Call<List<User>>
-
-    @GET("/user/{id}")
-    fun getUserById(@Path("id") id: Int): Call<User>
+    @GET("/myslim/api/problem")
+    fun getProblem(): Call<List<Problem>>
 
     @FormUrlEncoded
     @POST("/myslim/api/user")
     fun login(@Field("name") name: String, @Field("password") password: String?): Call<OutputPost>
+
+    @FormUrlEncoded
+    @POST("/myslim/api/insertmarker")
+    fun insert(@Field("descr")descr: String, @Field("lat")lat:String, @Field("lng")lng:String,@Field("user_id")user_id:Int): Call<OutputPost2>
+
+    @GET("/myslim/api/filter/{user_id}")
+    fun getProblemByID(@Path("user_id")user_id:Int):Call<List<Problem>>
 }

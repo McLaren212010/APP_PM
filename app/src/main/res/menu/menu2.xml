@@ -8,4 +8,28 @@
         app:showAsAction="ifRoom">
     </item>
 
+    <item android:id="@+id/add_marker"
+        android:icon="@drawable/ic_baseline_add_location_24"
+        android:title="@string/addmarker"
+        app:showAsAction="ifRoom">
+    </item>
+
+    <item android:id="@+id/filter_user"
+        android:title="@string/FilterID"
+        app:showAsAction="never">
+    </item>
+
+    <item android:id="@+id/filter_distance"
+        android:title="@string/FilterDistance"
+        app:showAsAction="never">
+    </item>
+
+    <item android:id="@+id/delete_marker"
+        android:title="@string/DeleteMarker"
+        app:showAsAction="never">
+    </item>
+
+
+
+
 </menu>

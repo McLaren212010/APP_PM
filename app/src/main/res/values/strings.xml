@@ -39,4 +39,18 @@
     <string name="Login_Done">Success</string>
     <string name="Login_Failed">Login Failed</string>
     <string name="logout">Logout</string>
+    <string name="addmarker">Add Marker</string>
+    <string name="Insert_Problem">Insert Problem</string>
+    <string name="button_confirm">Confirm</string>
+    <string name="Problem">Problem</string>
+    <string name="FilterID">Filter by User ID</string>
+    <string name="FilterDistance">Filter by Distance</string>
+    <string name="NoMarker">No Markers.</string>
+    <string name="Insert_UserID">Insert an User ID</string>
+    <string name="UserID">User ID</string>
+    <string name="ChooseID">Choose an ID:</string>
+    <string name="Insert_Distance">Insert Distance:</string>
+    <string name="empty">Empty!</string>
+    <string name="DeleteMarker">Delete Marker</string>
+
 </resources>
